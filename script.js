@@ -1,4 +1,6 @@
-let tableCell = document.querySelectorAll(".table-cell");
+const tableCell = document.querySelectorAll(".table-cell");
+const playerTurn = document.querySelector(".player-turn");
+const userAlert = document.querySelector(".user-alert");
 
 function winCheck() {
     // Rows Check
@@ -65,37 +67,50 @@ function winCheck() {
     return false;
 }
 
-function fullCheck() {
+function isFullCheck(arr) {
     let counter = 0;
-    tableCell.forEach((cell) => {
+    arr.forEach((cell) => {
         if(cell.classList.length == 2) {
             counter++;
         }
     });
-    return ((counter == tableCell.length) ? true : false);
+    return ((counter == arr.length) ? true : false);
 }
 
-function isEmpty(arr) {
-    if(arr.length == 1) {
-        return true;
-    } else {
-        return false;
-    }
-}
+const Move = new Array("cross", "circle");
+let player = Move[0];
 
 tableCell.forEach((cell) => {
     cell.addEventListener("click", () => {
-        cell.classList.add("cross");
+        if(!isFullCheck(tableCell) && !winCheck()) {
+            if(cell.classList.length == 1) {
+                if(player == Move[0]) {
+                    cell.classList.add(Move[0]);
+                    player = Move[1];
+                } else {
+                    cell.classList.add(Move[1]);
+                    player = Move[0];
+                }
+                if(winCheck()) {
+                    setTimeout(() => {
+                        userAlert.classList.add("render");
+                        userAlert.innerHTML = "<h1>You won 🎉</h1>";
+                    }, 100);
+                }
+            } else {
+                alert("Already taken!")
+            }
+        }
+        if (isFullCheck(tableCell)){
+            setTimeout(() => {
+                userAlert.classList.add("render");
+                userAlert.innerHTML = "<h1>It's a draw 😭</h1>";
+            }, 100);
+        }
+        if(player == Move[0]) {
+            playerTurn.innerHTML = "❌ is your turn!";
+        } else {
+            playerTurn.innerHTML = "⭕ is your turn!";
+        }
     });
-})
-
-let move = ["cross", "circle"]
-
-while(!winCheck() && !fullCheck()) {
-    let randNum1 = Math.floor(Math.random() * 2);
-    let randNum2 = Math.floor(Math.random() * 9);
-    while(!isEmpty(tableCell[randNum2].classList)) {
-        randNum2 = Math.floor(Math.random() * 9);
-    }
-    tableCell[randNum2].classList.add(move[randNum1]);
-}
+});
