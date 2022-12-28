@@ -75,6 +75,7 @@ const Move = new Array("cross", "circle");
 let player = Move[0];
 let crossScore = 0;
 let circleScore = 0;
+let win = false;
 
 tableCell.forEach((cell) => {
     cell.addEventListener("click", () => {
@@ -100,12 +101,13 @@ tableCell.forEach((cell) => {
                         }
                         scoreNumber.innerHTML = `${crossScore} : ${circleScore}`;
                     }, 100);
+                    win = true;
                 }
             } else {
                 alert("Already taken!")
             }
         }
-        if (isFullCheck(tableCell)){
+        if (!win && isFullCheck(tableCell)){
             setTimeout(() => {
                 userAlert.classList.remove("no-render");
                 userAlert.classList.add("render");
@@ -128,6 +130,7 @@ restartBtn.addEventListener("click", () => {
             cell.classList.remove("circle");
         }
     });
+    win = false;
     player = Move[0];
     userAlert.classList.add("no-render");
     playerTurn.innerHTML = "Make a move!";
