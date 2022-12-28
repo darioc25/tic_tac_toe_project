@@ -20,16 +20,31 @@ body{
 }
 
 .user-alert{
-    display: none;
     position: absolute;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.9);
-    color: white;
-    font-size: 60px;
     height: 100%;
     width: 100%;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+}
+
+.user-alert-text{
+    font-size: 60px;
+    color: white;
+}
+
+#restart-game{
+    padding: 10px 40px;
+    font-size: 20px;
+    border: none;
+    transition: 0.2s;
+}
+
+#restart-game:hover{
+    transform: scale(0.9);
+    cursor: pointer;
 }
 
 .table-title{
@@ -112,4 +127,8 @@ body{
 
 .render{
     display: flex;
+}
+
+.no-render{
+    display: none;
 }
