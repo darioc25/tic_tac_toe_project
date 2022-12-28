@@ -3,6 +3,7 @@ const playerTurn = document.querySelector(".player-turn");
 const userAlert = document.querySelector(".user-alert");
 const userAlertText = document.querySelector(".user-alert-text");
 const restartBtn = document.querySelector("#restart-game");
+const scoreNumber = document.querySelector(".score-number");
 
 function winCheck() {
     // Rows Check
@@ -72,6 +73,8 @@ function isFullCheck(arr) {
 
 const Move = new Array("cross", "circle");
 let player = Move[0];
+let crossScore = 0;
+let circleScore = 0;
 
 tableCell.forEach((cell) => {
     cell.addEventListener("click", () => {
@@ -90,9 +93,12 @@ tableCell.forEach((cell) => {
                         userAlert.classList.add("render");
                         if(winCheck()[1] == "cross") {
                             userAlertText.innerHTML = "❌ is the winner!";
+                            crossScore++;
                         } else {
                             userAlertText.innerHTML = "⭕ is the winner!";
+                            circleScore++;
                         }
+                        scoreNumber.innerHTML = `${crossScore} : ${circleScore}`;
                     }, 100);
                 }
             } else {
@@ -103,7 +109,7 @@ tableCell.forEach((cell) => {
             setTimeout(() => {
                 userAlert.classList.remove("no-render");
                 userAlert.classList.add("render");
-                userAlert.innerHTML = "<h1>It's a draw 😭</h1>";
+                userAlertText.innerHTML = "It's a draw 😭";
             }, 100);
         }
         if(player == Move[0]) {
